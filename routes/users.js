@@ -5,17 +5,15 @@ router.get('/users', (req, res) => {
   res.send(users);
 });
 
-
 router.get('/users/:id', (req, res) => {
 
- const id = req.query._id
+const {id} = req.params;
 
-
- //if (users.find(user => {user._id === req.query.id})) {
-  //res.status(404).send({ "message": "Нет пользователя с таким id" });
-       // return;
-   // }
-    res.send(`Id - ${id}`);
+if (!users.find((user) => user._id === id)) {
+  res.status(404).send({"message": "Нет пользователя с таким id - "+id});
+       return;
+   }
+    res.send(users.find((user) => user._id === id));
 });
 
 module.exports = router;
