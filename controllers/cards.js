@@ -6,8 +6,8 @@ const jsonCardsPath = path.join(__dirname, '..', 'data', 'cards.json');
 const getCards = (req, res) => {
   readCards(jsonCardsPath)
     .then((data) => res.send(data))
-    .catch((err) => {
-      res.send({ message: `Ошибка чтения данных - ${err}` });
+    .catch(() => {
+      res.status(500).send({ message: 'На сервере произошла ошибка' });
     });
 };
 
