@@ -4,28 +4,18 @@
   "description": "##Проект Mesto фронтенд + бэкенд\r Директории\r public — статика, полученная в результате билда фронтенд-приложения на Реакте\r data — JSON-файлы для временной эмуляции работы с базой данных\r routes — папка с файлами роутера\r Остальные директории вспомогательные, создаются при необходимости разработчиком\r ## Запуск проекта\r npm run start — запускает сервер\r npm run dev — запускает сервер с hot-reload",
   "main": "app.js",
   "dependencies": {
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-react": "^7.21.3",
-    "express": "^4.17.1",
-    "nodemon": "^2.0.4"
+    "express": "^4.17.1"
   },
   "devDependencies": {
+    "nodemon": "^2.0.4",
     "eslint": "^7.2.0",
-    "eslint-config-airbnb": "^18.2.0",
     "eslint-config-airbnb-base": "^14.2.0",
-    "eslint-config-prettier": "^6.12.0",
-    "eslint-plugin-html": "^6.1.0",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-jsx-a11y": "^6.3.1",
-    "eslint-plugin-prettier": "^3.1.4",
-    "prettier": "^2.1.2"
+    "eslint-plugin-import": "^2.22.1"
   },
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "fix": "eslint --fix"
-
+    "fix": "eslint ./ --fix"
   },
   "keywords": [],
   "author": "",
