@@ -1,14 +1,31 @@
-const path = require('path');
-const readCards = require('../utils/read-file');
+const Card = require('../models/card');
 
-const jsonCardsPath = path.join(__dirname, '..', 'data', 'cards.json');
-
-const getCards = (req, res) => {
-  readCards(jsonCardsPath)
-    .then((data) => res.send(data))
-    .catch(() => {
-      res.status(500).send({ message: 'На сервере произошла ошибка' });
-    });
+const getCards = async (req, res) => {
+  try {
+    const cards = await Card.find({});
+    res.status(200).send(cards);
+  } catch (error) {
+    res.status(500).send({ message: 'На сервере произошла ошибка запроса' });
+  }
 };
 
-module.exports = { getCards };
+const deleteCard = async (req, res) => {
+  try {
+    const { id } = await req.params;
+    await Card.findOneAndRemove({ _id: id });
+    res.status(200).send({ message: 'Карточка удалена' });
+  } catch (error) {
+    res.status(500).send({ message: 'На сервере произошла ошибка удаления' });
+  }
+};
+
+const createCard = async (req, res) => {
+  try {
+    const newCard = await Card.create({ ...req.body });
+    res.status(200).send(newCard);
+  } catch (error) {
+    res.status(500).send({ message: 'На сервере произошла ошибка создания' });
+  }
+};
+
+module.exports = { getCards, createCard, deleteCard };
