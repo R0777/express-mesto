@@ -15,7 +15,7 @@ const deleteCard = async (req, res) => {
     await Card.findOneAndRemove({ _id: id });
     res.status(200).send({ message: 'Карточка удалена' });
   } catch (error) {
-    res.status(500).send({ message: 'На сервере произошла ошибка удаления' });
+    res.status(404).send({ message: 'Искомая карточка не найдена' });
   }
 };
 
@@ -24,7 +24,7 @@ const createCard = async (req, res) => {
     const newCard = await Card.create({ ...req.body });
     res.status(200).send(newCard);
   } catch (error) {
-    res.status(500).send({ message: 'На сервере произошла ошибка создания' });
+    res.status(400).send({ message: 'На сервер переданы некорректные данные' });
   }
 };
 

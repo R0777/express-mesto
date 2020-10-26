@@ -19,8 +19,10 @@ const cardSchema = new mongoose.Schema({
       message: 'Укажите ссылку на изображенин',
     },
   },
-  owner: mongoose.Schema.Types.ObjectId,
-
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+  },
   likes: [{
     type: mongoose.Schema.Types.ObjectId,
     default: {

@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const path = require('path');
+// const path = require('path');
 const cards = require('./routes/cards.js');
 const users = require('./routes/users.js');
 
@@ -22,7 +22,7 @@ app.use((req, res, next) => {
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', users);
 app.use('/', cards);
