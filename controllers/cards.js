@@ -12,8 +12,9 @@ const getCards = async (req, res) => {
 const deleteCard = async (req, res) => {
   try {
     const { id } = req.params;
-
-    if (await Card.findOne({ _id: id })) {
+    const card = await Card.findOne({ _id: id });
+    if (card) {
+      await Card.deleteOne(card);
       res.status(200).send({ message: 'Карточка удалена' });
     }
     return res.status(404).send({ message: `Карточка c id ${id} не найдена` });
