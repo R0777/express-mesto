@@ -11,21 +11,33 @@ const getCards = async (req, res) => {
 
 const deleteCard = async (req, res) => {
   try {
-    const { id } = await req.params;
-    await Card.findOneAndRemove({ _id: id });
-    res.status(200).send({ message: 'Карточка удалена' });
+    const { id } = req.params;
+
+    if (await Card.findOne({ _id: id })) {
+      res.status(200).send({ message: 'Карточка удалена' });
+    }
+    return res.status(404).send({ message: `Карточка c id ${id} не найдена` });
   } catch (error) {
-    res.status(404).send({ message: 'Искомая карточка не найдена' });
+    const ERROR_CODE = 400;
+    if (error.name === 'CastError') {
+      return res.status(ERROR_CODE).send({ message: 'Id введен некорректно' });
+    }
+    return res.status(500).send({ message: 'Ошибка сервера' });
   }
 };
 
 const createCard = async (req, res) => {
   try {
-    const newCard = await Card.create({ ...req.body });
-    res.status(200).send(newCard);
+    const { name, link } = req.body;
+    const ownerId = req.user._id;
+    const card = await Card.create({ name, link, owner: ownerId });
+    return res.status(200).send(card);
   } catch (error) {
-    res.status(400).send({ message: 'На сервер переданы некорректные данные' });
+    const ERROR_CODE = 400;
+    if (error.name === 'ValidationError') {
+      return res.status(ERROR_CODE).send({ message: 'Ошибка валидации данных' });
+    }
+    return res.status(500).send({ message: 'Ошибка сервера' });
   }
 };
-
 module.exports = { getCards, createCard, deleteCard };

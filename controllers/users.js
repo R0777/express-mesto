@@ -11,20 +11,31 @@ const getUsers = async (req, res) => {
 
 const getUser = async (req, res) => {
   try {
-    const { id } = await req.params;
+    const { id } = req.params;
     const user = await User.findOne({ _id: id });
-    res.status(200).send(user);
+    if (user) {
+      return res.status(200).send(user);
+    }
+    return res.status(404).send({ message: `Пользователь c id ${id} не найден` });
   } catch (error) {
-    res.status(404).send({ message: 'Нет пользователя с таким id' });
+    const ERROR_CODE = 400;
+    if (error.name === 'CastError') {
+      return res.status(ERROR_CODE).send({ message: 'Id введен некорректно' });
+    }
+    return res.status(500).send({ message: 'Ошибка сервера' });
   }
 };
 
 const createUser = async (req, res) => {
   try {
     const newUser = await User.create({ ...req.body });
-    res.status(200).send(newUser);
+    return res.status(200).send(newUser);
   } catch (error) {
-    res.status(400).send({ message: 'На сервер переданы некорректные данные' });
+    const ERROR_CODE = 400;
+    if (error.name === 'ValidationError') {
+      return res.status(ERROR_CODE).send({ message: 'Ошибка валидации данных' });
+    }
+    return res.status(500).send({ message: 'Ошибка сервера' });
   }
 };
 

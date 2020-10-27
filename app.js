@@ -1,13 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
-// const path = require('path');
 const cards = require('./routes/cards.js');
 const users = require('./routes/users.js');
 
 const { PORT = 3000 } = process.env;
 const app = express();
 
-mongoose.connect('mongodb://localhost:27017/mydb', {
+mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
@@ -15,14 +14,13 @@ mongoose.connect('mongodb://localhost:27017/mydb', {
 
 app.use((req, res, next) => {
   req.user = {
-    _id: '5f9475d615603e0c74b9544c',
+    _id: '5f97db15936ecc062c49c82f',
   };
   next();
 });
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-// app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', users);
 app.use('/', cards);
@@ -33,5 +31,5 @@ app.use('/', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log('ON');
+  console.log(`Working on port ${PORT}`);
 });
